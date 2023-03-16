@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import './App.css';
-import logo from './mlh-prep.png'
+import "./App.css";
+import logo from "./mlh-prep.png";
+import Geolocation from "./Geolocation";
 
 function App() {
   const [error, setError] = useState(null);
@@ -8,8 +9,10 @@ function App() {
   const [city, setCity] = useState("New York City")
   const [results, setResults] = useState(null);
 
+
+
   useEffect(() => {
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric" + "&appid=" + process.env.REACT_APP_APIKEY)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_APIKEY}&units=imperial`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -43,11 +46,12 @@ function App() {
           {console.log(results)}
           {isLoaded && results && <>
             <h3>{results.weather[0].main}</h3>
-            <p>Feels like {results.main.feels_like}°C</p>
+            <p>Feels like {results.main.feels_like}°F</p>
             <i><p>{results.name}, {results.sys.country}</p></i>
           </>}
         </div>
       </div>
+      <Geolocation/>
     </>
   }
 }
